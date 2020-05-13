@@ -12,6 +12,11 @@ import torch.nn.functional as F
 import torch.utils.data as data_utils
 import os,sys
 import json
+
+
+# to avoid certain warnings on macOS
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
  
 classified = False
 classification_type = sys.argv[1]
