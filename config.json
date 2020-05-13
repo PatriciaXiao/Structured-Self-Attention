@@ -4,7 +4,7 @@
 	"use_regularization":"True",
 	"C":0.03,
 	"clip":"True",
-	"use_embeddings":"False",
+	"use_embeddings":"True",
 	"attention_hops":10
 
 }
