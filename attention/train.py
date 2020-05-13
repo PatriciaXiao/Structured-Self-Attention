@@ -71,7 +71,7 @@ def train(attention_model,train_loader,criterion,optimizer,epochs = 5,use_regula
            
             #gradient clipping
             if clip:
-                torch.nn.utils.clip_grad_norm(attention_model.parameters(),0.5)
+                torch.nn.utils.clip_grad_norm_(attention_model.parameters(),0.5)
             optimizer.step()
             n_batches+=1
            

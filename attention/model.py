@@ -88,7 +88,8 @@ class StructuredSelfAttention(torch.nn.Module):
         trans_input = input.transpose(axis, len(input_size)-1)
         trans_size = trans_input.size()
         input_2d = trans_input.contiguous().view(-1, trans_size[-1])
-        soft_max_2d = F.softmax(input_2d)
+
+        soft_max_2d = F.softmax(input_2d, dim=0) # dim=?
         soft_max_nd = soft_max_2d.view(*trans_size)
         return soft_max_nd.transpose(axis, len(input_size)-1)
        
@@ -100,7 +101,7 @@ class StructuredSelfAttention(torch.nn.Module):
     def forward(self,x):
         embeddings = self.embeddings(x)       
         outputs, self.hidden_state = self.lstm(embeddings.view(self.batch_size,self.max_len,-1),self.hidden_state)       
-        x = F.tanh(self.linear_first(outputs))       
+        x = torch.tanh(self.linear_first(outputs))       
         x = self.linear_second(x)       
         x = self.softmax(x,1)       
         attention = x.transpose(1,2)       
@@ -108,7 +109,7 @@ class StructuredSelfAttention(torch.nn.Module):
         avg_sentence_embeddings = torch.sum(sentence_embeddings,1)/self.r
        
         if not bool(self.type):
-            output = F.sigmoid(self.linear_final(avg_sentence_embeddings))
+            output = torch.sigmoid(self.linear_final(avg_sentence_embeddings))
            
             return output,attention
         else:
