@@ -60,8 +60,7 @@ class StructuredSelfAttention(torch.nn.Module):
  
         Returns:
             softmaxed tensors
- 
-       
+
         """
         input_size = input.size()
         trans_input = input.transpose(axis, len(input_size)-1)
@@ -106,8 +105,7 @@ class StructuredSelfAttention(torch.nn.Module):
  
         Returns:
             regularized value
- 
-       
+
         """
         return torch.sum(torch.sum(torch.sum(m**2,1),1)**0.5).type(torch.DoubleTensor)
 
