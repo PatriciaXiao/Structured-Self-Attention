@@ -1,8 +1,7 @@
-import torch,keras
+import torch
 import numpy as np
 from torch.autograd import Variable
 import torch.nn.functional as F
-import torch.utils.data as data_utils
  
 class StructuredSelfAttention(torch.nn.Module):
     """
@@ -112,4 +111,3 @@ class StructuredSelfAttention(torch.nn.Module):
         """
         return torch.sum(torch.sum(torch.sum(m**2,1),1)**0.5).type(torch.DoubleTensor)
 
-        
