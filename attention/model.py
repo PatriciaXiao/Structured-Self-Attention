@@ -56,15 +56,14 @@ class StructuredSelfAttention(torch.nn.Module):
         Softmax applied to axis=n
  
         Args:
-           input: {Tensor,Variable} input on which softmax is to be applied
-           axis : {int} axis on which softmax is to be applied
+           input: Tensor, input on which softmax is to be applied
+           axis : int axis on which softmax is to be applied
  
         Returns:
             softmaxed tensors
  
        
         """
- 
         input_size = input.size()
         trans_input = input.transpose(axis, len(input_size)-1)
         trans_size = trans_input.size()
@@ -76,7 +75,8 @@ class StructuredSelfAttention(torch.nn.Module):
        
         
     def init_hidden(self):
-        return (Variable(torch.zeros(1,self.batch_size,self.lstm_hid_dim)),Variable(torch.zeros(1,self.batch_size,self.lstm_hid_dim)))
+        return  torch.zeros(1,self.batch_size,self.lstm_hid_dim), \
+                torch.zeros(1,self.batch_size,self.lstm_hid_dim)
        
         
     def forward(self,x):
@@ -111,3 +111,5 @@ class StructuredSelfAttention(torch.nn.Module):
        
         """
         return torch.sum(torch.sum(torch.sum(m**2,1),1)**0.5).type(torch.DoubleTensor)
+
+        
