@@ -36,12 +36,12 @@ class StructuredSelfAttention(torch.nn.Module):
        
         self.embeddings = torch.nn.Embedding(vocab_size,emb_dim,padding_idx=0)
         self.lstm = torch.nn.LSTM(emb_dim,lstm_hid_dim,num_layers,batch_first=True,bidirectional=True)
-        self.linear_first = torch.nn.Linear(lstm_hid_dim,d_a)
+        self.linear_first = torch.nn.Linear(lstm_hid_dim*2,d_a)
         self.linear_first.bias.data.fill_(0)
         self.linear_second = torch.nn.Linear(d_a,r)
         self.linear_second.bias.data.fill_(0)
         self.n_classes = n_classes
-        self.linear_final = torch.nn.Linear(lstm_hid_dim,self.n_classes)
+        self.linear_final = torch.nn.Linear(2*lstm_hid_dim,self.n_classes)
         self.batch_size = batch_size       
         self.max_len = max_len
         self.lstm_hid_dim = lstm_hid_dim
@@ -74,8 +74,8 @@ class StructuredSelfAttention(torch.nn.Module):
        
         
     def init_hidden(self):
-        return  torch.zeros(1,self.batch_size,self.lstm_hid_dim), \
-                torch.zeros(1,self.batch_size,self.lstm_hid_dim)
+        return  torch.zeros(2,self.batch_size,self.lstm_hid_dim), \
+                torch.zeros(2,self.batch_size,self.lstm_hid_dim)
        
         
     def forward(self,x):
