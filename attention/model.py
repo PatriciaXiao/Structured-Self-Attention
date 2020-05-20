@@ -84,7 +84,7 @@ class StructuredSelfAttention(torch.nn.Module):
         x = torch.tanh(self.linear_first(outputs))       
         x = self.linear_second(x)       
         x = self.softmax(x,1)       
-        attention = x.transpose(1,2)       
+        attention = x.transpose(1,2)  # A     
         sentence_embeddings = attention@outputs       
         avg_sentence_embeddings = torch.sum(sentence_embeddings,1)/self.r
        
