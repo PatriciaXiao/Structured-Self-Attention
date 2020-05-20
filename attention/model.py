@@ -9,7 +9,7 @@ class StructuredSelfAttention(torch.nn.Module):
     and without pruning. Slight modifications have been done for speedup
     """
    
-    def __init__(self,batch_size,lstm_hid_dim,d_a,r,max_len,emb_dim=100,vocab_size=None,use_pretrained_embeddings = False,embeddings=None,_type=0,n_classes = 1):
+    def __init__(self,batch_size,lstm_hid_dim,d_a,r,max_len, num_layers=1, emb_dim=100,vocab_size=None,use_pretrained_embeddings = False,embeddings=None,_type=0,n_classes = 1):
         """
         Initializes parameters suggested in paper
  
@@ -35,7 +35,7 @@ class StructuredSelfAttention(torch.nn.Module):
         super(StructuredSelfAttention,self).__init__()
        
         self.embeddings = torch.nn.Embedding(vocab_size,emb_dim,padding_idx=0)
-        self.lstm = torch.nn.LSTM(emb_dim,lstm_hid_dim,1,batch_first=True)
+        self.lstm = torch.nn.LSTM(emb_dim,lstm_hid_dim,num_layers,batch_first=True)
         self.linear_first = torch.nn.Linear(lstm_hid_dim,d_a)
         self.linear_first.bias.data.fill_(0)
         self.linear_second = torch.nn.Linear(d_a,r)
