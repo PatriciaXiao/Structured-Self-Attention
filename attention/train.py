@@ -43,8 +43,6 @@ def train(attention_model,train_loader,criterion,optimizer,epochs = 5,use_regula
            
             
             if not bool(attention_model.type) :
-                print("here")
-                exit(0)
                 #binary classification
                 #Adding a very small value to prevent BCELoss from outputting NaN's
                 correct+=torch.eq(torch.round(y_pred.type(torch.DoubleTensor).squeeze(1)),y).data.sum()
@@ -59,8 +57,6 @@ def train(attention_model,train_loader,criterion,optimizer,epochs = 5,use_regula
                 
             
             else:
-                print("there")
-                exit(0)
                 
                 correct+=torch.eq(torch.max(y_pred,1)[1],y.type(torch.LongTensor)).data.sum()
                 if use_regularization:
