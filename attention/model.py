@@ -46,7 +46,7 @@ class StructuredSelfAttention(torch.nn.Module):
         self.max_len = max_len
         self.lstm_hid_dim = lstm_hid_dim
         self.hidden_state = self.init_hidden()
-        self.r = r
+        self.regularization = r
         self.type = _type
        
         
@@ -85,8 +85,8 @@ class StructuredSelfAttention(torch.nn.Module):
         x = self.linear_second(x)       
         x = self.softmax(x,1)       
         attention = x.transpose(1,2)  # A     
-        sentence_embeddings = attention@outputs       
-        avg_sentence_embeddings = torch.sum(sentence_embeddings,1)/self.r
+        sentence_embeddings = attention@outputs   # attended outout and the original output    
+        avg_sentence_embeddings = torch.sum(sentence_embeddings,axis=1)/self.regularization
        
         if not bool(self.type):
             output = torch.sigmoid(self.linear_final(avg_sentence_embeddings))
